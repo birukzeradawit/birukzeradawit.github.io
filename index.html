@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biruk Zeradawit — Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10202B;
+    --ink-soft:#182C3A;
+    --paper:#F6F1E7;
+    --paper-dim:#EDE6D6;
+    --amber:#C98A2C;
+    --amber-soft:#E3B665;
+    --teal:#2F6F63;
+    --charcoal:#1B1F23;
+    --stone:#847C6C;
+    --line: rgba(16,32,43,0.14);
+    --line-light: rgba(246,241,231,0.18);
+    --radius: 2px;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--charcoal);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--amber-soft); color:var(--ink);}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(246,241,231,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1080px; margin:0 auto;
+  }
+  .nav .mark{
+    font-family:var(--mono); font-size:14px; letter-spacing:0.02em;
+    color:var(--ink);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav .mark .dot{width:7px; height:7px; border-radius:50%; background:var(--teal); display:inline-block;}
+  .nav nav{display:flex; gap:28px;}
+  .nav nav a{
+    font-family:var(--mono); font-size:13px; color:var(--stone);
+    text-transform:uppercase; letter-spacing:0.06em;
+    transition:color 0.15s ease;
+  }
+  .nav nav a:hover{color:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 72px;
+    display:grid; grid-template-columns:1.3fr 1fr; gap:56px; align-items:start;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; color:var(--teal);
+    letter-spacing:0.08em; text-transform:uppercase;
+    margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--teal);}
+
+  h1.name{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(40px, 6vw, 68px);
+    line-height:1.02; letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  .role-line{
+    font-family:var(--display); font-weight:500; font-size:22px;
+    color:var(--stone); margin-top:14px;
+  }
+  .role-line strong{color:var(--amber); font-weight:600;}
+
+  .hero p.lede{
+    margin-top:26px; font-size:16.5px; color:var(--charcoal);
+    max-width:52ch; line-height:1.65;
+  }
+
+  .hero-cta{margin-top:34px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13px; letter-spacing:0.03em;
+    padding:13px 22px; border-radius:var(--radius);
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary{background:var(--ink); color:var(--paper);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 6px 0 var(--amber);}
+  .btn-ghost{border:1px solid var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink); transform:translateY(-2px);}
+
+  /* ---------- RECEIPT CARD (signature element) ---------- */
+  .receipt{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:13px;
+    padding:26px 24px 22px;
+    position:relative;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px rgba(16,32,43,0.18);
+  }
+  .receipt::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:-9px; height:18px;
+    background-image: radial-gradient(circle at 9px 0, transparent 9px, var(--ink) 9.5px);
+    background-size: 18px 18px;
+    background-position: 0 0;
+  }
+  .receipt .r-head{
+    text-align:center; padding-bottom:14px; margin-bottom:14px;
+    border-bottom:1px dashed var(--line-light);
+    letter-spacing:0.08em; text-transform:uppercase; font-size:11px; color:var(--amber-soft);
+  }
+  .receipt .r-title{
+    font-family:var(--display); font-weight:600; font-size:17px;
+    text-align:center; color:var(--paper); margin-bottom:2px; letter-spacing:0;
+    text-transform:none;
+  }
+  .receipt .r-row{
+    display:flex; justify-content:space-between; gap:10px;
+    padding:6px 0; color:#D8D2C4;
+  }
+  .receipt .r-row span:first-child{color:#8C9AA6;}
+  .receipt .r-div{border-top:1px dashed var(--line-light); margin:12px 0;}
+  .receipt .r-total{
+    display:flex; justify-content:space-between; font-size:13px;
+    padding-top:10px; color:var(--paper); font-weight:600;
+  }
+  .receipt .r-status{
+    margin-top:16px; text-align:center;
+    font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--teal); background:rgba(47,111,99,0.15);
+    border:1px solid rgba(47,111,99,0.4);
+    padding:8px; border-radius:var(--radius);
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:64px 0;}
+  .section-head{
+    display:flex; align-items:baseline; gap:16px; margin-bottom:36px;
+  }
+  .section-head .num{font-family:var(--mono); color:var(--amber); font-size:14px;}
+  .section-head h2{
+    font-family:var(--display); font-size:28px; font-weight:600; color:var(--ink);
+  }
+  .section-head .rule{flex:1; height:1px; background:var(--line);}
+
+  hr.tear{
+    border:none; border-top:1px dashed var(--line); margin:0;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:48px;}
+  .about-grid p{font-size:15.5px; color:var(--charcoal); line-height:1.75;}
+  .about-grid p + p{margin-top:16px;}
+  .edu-block{
+    font-family:var(--mono); font-size:13px; color:var(--stone);
+    border-left:2px solid var(--amber); padding-left:16px;
+  }
+  .edu-block .school{font-family:var(--body); font-weight:600; color:var(--ink); font-size:15px; margin-bottom:4px;}
+
+  /* ---------- SKILLS ---------- */
+  .skills-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .skill-cell{background:var(--paper); padding:22px 20px;}
+  .skill-cell .label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--teal); margin-bottom:10px; display:block;
+  }
+  .skill-cell .items{font-size:14px; color:var(--charcoal); line-height:1.6;}
+
+  /* ---------- PROJECTS ---------- */
+  .project-ticket{
+    display:grid; grid-template-columns:220px 1fr; gap:0;
+    border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:28px; overflow:hidden; background:var(--paper);
+    transition:box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .project-ticket:hover{box-shadow:0 14px 30px rgba(16,32,43,0.10); transform:translateY(-2px);}
+
+  .ticket-stub{
+    background:var(--ink); color:var(--paper);
+    padding:24px 20px;
+    font-family:var(--mono);
+    position:relative;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .ticket-stub::after{
+    content:''; position:absolute; top:0; bottom:0; right:-1px; width:1px;
+    background-image: linear-gradient(var(--paper) 50%, transparent 0%);
+    background-size: 1px 10px;
+  }
+  .ticket-stub .tno{font-size:11px; color:var(--amber-soft); letter-spacing:0.08em;}
+  .ticket-stub .tname{font-family:var(--display); font-size:19px; font-weight:600; margin-top:8px; line-height:1.25;}
+  .ticket-stub .tlink{font-size:11.5px; color:#9FB2BC; margin-top:14px; word-break:break-all;}
+  .ticket-stub .tlink:hover{color:var(--paper);}
+
+  .ticket-body{padding:24px 26px;}
+  .ticket-body ul{list-style:none;}
+  .ticket-body li{
+    position:relative; padding-left:20px; margin-bottom:10px;
+    font-size:14.5px; color:var(--charcoal); line-height:1.6;
+  }
+  .ticket-body li::before{
+    content:'—'; position:absolute; left:0; color:var(--amber); font-weight:600;
+  }
+  .ticket-body li:last-child{margin-bottom:0;}
+
+  .also-built{
+    margin-top:8px; padding:22px 26px; border:1px dashed var(--line);
+    border-radius:var(--radius); font-size:14px; color:var(--stone);
+  }
+  .also-built strong{color:var(--ink); font-family:var(--mono); font-weight:500; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; display:block; margin-bottom:8px;}
+  .also-built a{color:var(--teal); border-bottom:1px solid rgba(47,111,99,0.35);}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{
+    background:var(--ink); color:var(--paper);
+    padding:72px 0 40px; margin-top:40px;
+  }
+  footer .foot-inner{max-width:1080px; margin:0 auto; padding:0 32px;}
+  footer .cta-line{
+    font-family:var(--display); font-size:clamp(28px,4vw,44px); font-weight:600;
+    max-width:14ch; line-height:1.15;
+  }
+  footer .cta-line span{color:var(--amber-soft);}
+  footer .contact-row{
+    margin-top:34px; display:flex; flex-wrap:wrap; gap:28px;
+    font-family:var(--mono); font-size:14px;
+  }
+  footer .contact-row a{
+    color:#D8D2C4; border-bottom:1px solid rgba(216,210,196,0.3);
+    padding-bottom:3px; transition:color 0.15s ease, border-color 0.15s ease;
+  }
+  footer .contact-row a:hover{color:var(--amber-soft); border-color:var(--amber-soft);}
+  footer .foot-bottom{
+    margin-top:56px; padding-top:22px; border-top:1px solid var(--line-light);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:var(--mono); font-size:11.5px; color:#7C8A94; letter-spacing:0.03em;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity 0.6s ease, transform 0.6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px){
+    .hero{grid-template-columns:1fr; gap:40px;}
+    .about-grid{grid-template-columns:1fr; gap:28px;}
+    .skills-grid{grid-template-columns:repeat(2,1fr);}
+    .project-ticket{grid-template-columns:1fr;}
+    .ticket-stub::after{display:none;}
+    .ticket-stub{flex-direction:row; align-items:center; flex-wrap:wrap; gap:6px 16px;}
+    .nav nav{gap:16px;}
+  }
+  @media (max-width: 520px){
+    .wrap, .nav, footer .foot-inner{padding-left:20px; padding-right:20px;}
+    .skills-grid{grid-template-columns:1fr 1fr;}
+    .nav nav a:nth-child(3){display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <div class="mark"><span class="dot"></span>BIRUK.ZERADAWIT</div>
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Computer Science Student · Addis Ababa</div>
+      <h1 class="name">Biruk<br>Zeradawit</h1>
+      <div class="role-line">Full-stack developer, mostly <strong>React + Node + PostgreSQL</strong></div>
+      <p class="lede">I build ordering systems, booking platforms, and the small tools around them — from schema to checkout to the button you click to confirm it. Currently studying Computer Science at American College of Technology, looking for an internship where I can ship real features.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">View projects ↓</a>
+        <a class="btn btn-ghost" href="mailto:biruk5063@gmail.com">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="receipt">
+      <div class="r-head">Developer Profile — Order #001</div>
+      <div class="r-title">B. Zeradawit</div>
+      <div class="r-row"><span>Role</span><span>Full-Stack Dev (Jr.)</span></div>
+      <div class="r-row"><span>Based in</span><span>Addis Ababa, ET</span></div>
+      <div class="r-row"><span>Grad</span><span>May 2027</span></div>
+      <div class="r-div"></div>
+      <div class="r-row"><span>1×</span><span>JavaScript / SQL</span></div>
+      <div class="r-row"><span>1×</span><span>React · Node · Express</span></div>
+      <div class="r-row"><span>1×</span><span>PostgreSQL</span></div>
+      <div class="r-row"><span>1×</span><span>Java · C++</span></div>
+      <div class="r-div"></div>
+      <div class="r-total"><span>Status</span><span>Open to Work</span></div>
+      <div class="r-status">Available for Summer Internship</div>
+    </div>
+  </section>
+
+  <hr class="tear">
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="section-head">
+      <span class="num">01</span><h2>About</h2><div class="rule"></div>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a Computer Science student who learns best by building complete things — not tutorials, but apps with real auth, real databases, and real edge cases. My biggest project so far, Merkato Express, taught me more about transactions and access control than any course reading did.</p>
+        <p>I'm looking for an internship where I can work alongside engineers who'll tell me when my schema is wrong — and help me get faster at building things that hold up.</p>
+      </div>
+      <div class="edu-block">
+        <div class="school">American College of Technology</div>
+        B.Sc. Computer Science — In Progress<br>
+        Expected Graduation: May 2027<br>
+        Addis Ababa, Ethiopia
+      </div>
+    </div>
+  </section>
+
+  <hr class="tear">
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="section-head">
+      <span class="num">02</span><h2>Skills</h2><div class="rule"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <span class="label">Languages</span>
+        <div class="items">Java, C++, JavaScript, SQL</div>
+      </div>
+      <div class="skill-cell">
+        <span class="label">Web &amp; Frameworks</span>
+        <div class="items">HTML, CSS, React, Node.js, Express.js</div>
+      </div>
+      <div class="skill-cell">
+        <span class="label">Databases</span>
+        <div class="items">PostgreSQL, Relational Design</div>
+      </div>
+      <div class="skill-cell">
+        <span class="label">Concepts</span>
+        <div class="items">OOP, REST APIs, JWT Auth, MVC</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="tear">
+
+  <!-- PROJECTS -->
+  <section id="work" class="reveal">
+    <div class="section-head">
+      <span class="num">03</span><h2>Selected Work</h2><div class="rule"></div>
+    </div>
+
+    <div class="project-ticket">
+      <div class="ticket-stub">
+        <div>
+          <div class="tno">PROJECT — 001</div>
+          <div class="tname">Merkato Express</div>
+        </div>
+        <a class="tlink" href="https://github.com/birukzeradawit/merkato-express" target="_blank" rel="noopener">github.com/birukzeradawit/merkato-express ↗</a>
+      </div>
+      <div class="ticket-body">
+        <ul>
+          <li>Full-stack catering ordering platform built with React, Node.js/Express, and PostgreSQL — menu browsing, cart, checkout, and order tracking.</li>
+          <li>JWT authentication, bcrypt password hashing, and role-based access control restricting order-status updates to admin accounts.</li>
+          <li>Normalized PostgreSQL schema (users, menu items, carts, orders) with transactional checkout logic to keep cart and order data consistent.</li>
+          <li>Server-side input validation and centralized error handling/logging across the Express API.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project-ticket">
+      <div class="ticket-stub">
+        <div>
+          <div class="tno">PROJECT — 002</div>
+          <div class="tname">Event-Hub</div>
+        </div>
+        <a class="tlink" href="https://github.com/birukzeradawit/Event-Hub" target="_blank" rel="noopener">github.com/birukzeradawit/Event-Hub ↗</a>
+      </div>
+      <div class="ticket-body">
+        <ul>
+          <li>Responsive event booking website built in vanilla HTML, CSS, and JavaScript with a dark-themed, neon-accented UI.</li>
+          <li>Event browsing/filtering, a ticket checkout flow, user authentication, and real-time search, with data persisted via LocalStorage.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="also-built">
+      <strong>Also built</strong>
+      Pulse Gym (multi-page gym website), Sheger Gebeta (food review site), and a To-Do List app — HTML, CSS &amp; JavaScript.
+      Full source on <a href="https://github.com/birukzeradawit" target="_blank" rel="noopener">github.com/birukzeradawit ↗</a>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="foot-inner">
+    <div class="cta-line">Let's build something that <span>ships</span>.</div>
+    <div class="contact-row">
+      <a href="mailto:biruk5063@gmail.com">biruk5063@gmail.com ↗</a>
+      <a href="tel:+251950114308">+251 950 114 308</a>
+      <a href="https://github.com/birukzeradawit" target="_blank" rel="noopener">github.com/birukzeradawit ↗</a>
+    </div>
+    <div class="foot-bottom">
+      <span>BIRUK ZERADAWIT — ADDIS ABABA, ET</span>
+      <span>BUILT WITH REACT · NODE · POSTGRESQL — AND A FEW LATE NIGHTS</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  items.forEach(i=>io.observe(i));
+</script>
+
+</body>
+</html>
